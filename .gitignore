@@ -1,0 +1,21 @@
+# Build output
+target/
+test-output/
+allure-results/
+allure-report/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Node (used from Week 2)
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets (never commit real credentials)
+.env
+*.local.properties
