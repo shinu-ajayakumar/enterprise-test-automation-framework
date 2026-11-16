@@ -3,6 +3,8 @@ package com.shinu.automation.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Reads settings for the chosen environment (-Denv=qa|local, default qa).
@@ -13,6 +15,13 @@ public final class ConfigManager {
 
     private static final String ENV = System.getProperty("env", "qa").toLowerCase();
     private static final Properties PROPS = load(ENV);
+
+    private static final Logger LOG = LogManager.getLogger(ConfigManager.class);
+
+    static {
+        LOG.info("Environment='{}' baseUrl='{}' browser='{}' headless='{}'",
+                ENV, get("base.url"), get("browser"), get("headless"));
+    }
 
     private ConfigManager() {
     }

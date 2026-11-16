@@ -34,6 +34,20 @@
             <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Log4j2: logging API + implementation -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.24.3</version>
+        </dependency>
+        <!-- Routes SLF4J (used by TestNG/Selenium libraries) into Log4j2: removes the SLF4J warning -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>2.24.3</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -47,6 +61,14 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
+                <configuration>
+                    <proc>none</proc>
                 </configuration>
             </plugin>
         </plugins>
