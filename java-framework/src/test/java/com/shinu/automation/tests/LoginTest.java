@@ -54,4 +54,9 @@ public class LoginTest extends BaseTest {
         LoginPage loginPage = new LoginPage().loginAs(VALID_USERNAME, VALID_PASSWORD).logOut();
         Assert.assertTrue(loginPage.isLoginPanelDisplayed(), "Login panel not shown after logging out");
     }
+
+    @Test(groups = {"smoke"})
+    public void demoFailureScreenshot() {
+        Assert.assertTrue(driver().getTitle().contains("Not ParaBank"), "Deliberate failure to test screenshots");
+    }
 }
