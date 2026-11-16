@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.Locale;
 
 public abstract class BasePage {
 
@@ -43,6 +42,17 @@ public abstract class BasePage {
     protected boolean isDisplayed(By locator) {
         try {
             return waitForVisible(locator).isDisplayed();
+        } catch (org.openqa.selenium.TimeoutException e) {
+            return false;
+        }
+    }
+
+    /** For negative checks: is the element shown within a short timeout? Avoids waiting the full 10 seconds. */
+    protected boolean isDisplayedWithin(By locator, Duration timeout) {
+        try {
+            return new WebDriverWait(driver, timeout)
+                    .until(ExpectedConditions.visibilityOfElementLocated(locator))
+                    .isDisplayed();
         } catch (org.openqa.selenium.TimeoutException e) {
             return false;
         }

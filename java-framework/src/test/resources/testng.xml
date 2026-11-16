@@ -1,6 +1,11 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="ParaBank Day 1 Suite" verbose="1">
-    <test name="Smoke">
+<suite name="ParaBank Regression Suite" verbose="1">
+    <test name="UI Tests">
+        <groups>
+            <run>
+                <exclude name="known-issue"/>
+            </run>
+        </groups>
         <classes>
             <class name="com.shinu.automation.tests.HomePageTest"/>
             <class name="com.shinu.automation.tests.LoginTest"/>

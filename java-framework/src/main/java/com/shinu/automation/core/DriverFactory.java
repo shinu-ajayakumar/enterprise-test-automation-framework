@@ -28,7 +28,7 @@ public final class DriverFactory {
             }
             case "edge" -> {
                 EdgeOptions options = new EdgeOptions();
-                if(headless) options.addArguments("--headless");
+                if(headless) options.addArguments("--headless=new");
                 yield new EdgeDriver(options);
             }
             default ->   {
