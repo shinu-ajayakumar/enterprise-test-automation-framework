@@ -9,6 +9,8 @@
         <classes>
             <class name="com.shinu.automation.tests.HomePageTest"/>
             <class name="com.shinu.automation.tests.LoginTest"/>
+            <class name="com.shinu.automation.practice.FirstUniqueCharTest"/>
+            <class name="com.shinu.automation.practice.ValidParenthesesTest"/>
         </classes>
     </test>
 </suite>
