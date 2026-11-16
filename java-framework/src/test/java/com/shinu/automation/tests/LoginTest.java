@@ -4,6 +4,7 @@ import com.shinu.automation.base.BaseTest;
 import com.shinu.automation.pages.AccountsOverviewPage;
 import com.shinu.automation.pages.LoginPage;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -12,6 +13,16 @@ public class LoginTest extends BaseTest {
 
     private static final String VALID_USERNAME = System.getenv().getOrDefault("PARABANK_USER", "CHANGE_ME");
     private static final String VALID_PASSWORD = System.getenv().getOrDefault("PARABANK_PASSWORD", "CHANGE_ME");
+
+    @BeforeClass(alwaysRun = true)
+    public void checkCredentialsConfigured() {
+        if ("CHANGE_ME".equals(VALID_USERNAME) || "CHANGE_ME".equals(VALID_PASSWORD)) {
+            throw new IllegalStateException(
+                    "PARABANK_USER / PARABANK_PASSWORD environment variables are not set for this process. "
+                            + "Set them and restart your terminal/IDE.");
+        }
+        log.info("Using ParaBank user '{}'", VALID_USERNAME);   // username only, never the password
+    }
 
     @Test(description = "Unknown username does not log in. KNOWN DEFECT: public ParaBank authenticates unknown users",
             groups = {"regression", "known-issue"})
@@ -53,10 +64,5 @@ public class LoginTest extends BaseTest {
     public void userCanLogOut() {
         LoginPage loginPage = new LoginPage().loginAs(VALID_USERNAME, VALID_PASSWORD).logOut();
         Assert.assertTrue(loginPage.isLoginPanelDisplayed(), "Login panel not shown after logging out");
-    }
-
-    @Test(groups = {"smoke"})
-    public void demoFailureScreenshot() {
-        Assert.assertTrue(driver().getTitle().contains("Not ParaBank"), "Deliberate failure to test screenshots");
     }
 }
