@@ -17,8 +17,9 @@ public final class DriverFactory {
     }
 
     public static void initDriver(){
-        String browser = System.getProperty("browser","chrome").toLowerCase();
-        boolean headless = Boolean.parseBoolean(System.getProperty("headless","false"));
+
+        String browser = ConfigManager.get("browser").toLowerCase();
+        boolean headless = ConfigManager.getBoolean("headless");
 
         WebDriver driver = switch(browser){
             case "firefox" -> {
