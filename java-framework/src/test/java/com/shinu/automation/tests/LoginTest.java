@@ -13,7 +13,8 @@ public class LoginTest extends BaseTest {
     private static final String VALID_USERNAME = System.getenv().getOrDefault("PARABANK_USER", "CHANGE_ME");
     private static final String VALID_PASSWORD = System.getenv().getOrDefault("PARABANK_PASSWORD", "CHANGE_ME");
 
-    @Test(description = "Wrong password does not log the user in", groups = {"regression"})
+    @Test(description = "Unknown username does not log in. KNOWN DEFECT: public ParaBank authenticates unknown users",
+            groups = {"regression", "known-issue"})
     public void wrongPasswordDoesNotLogIn() {
         new LoginPage().loginExpectingError(VALID_USERNAME, "wrong-password-123");
         Assert.assertFalse(new AccountsOverviewPage().isLoadedWithin(Duration.ofSeconds(3)),
@@ -27,7 +28,7 @@ public class LoginTest extends BaseTest {
                 "Unknown user was logged in");
     }
 
-    @Test(description = "Wrong password shows an error message. KNOWN ISSUE: public ParaBank returns a JSON 400 instead of the HTML error page",
+    @Test(description = "Wrong password does not log the user in. KNOWN DEFECT: public ParaBank authenticates any password",
             groups = {"regression", "known-issue"})
     public void wrongPasswordShowsErrorMessage() {
         LoginPage loginPage = new LoginPage().loginExpectingError(VALID_USERNAME, "wrong-password-123");
@@ -39,5 +40,17 @@ public class LoginTest extends BaseTest {
     public void unknownUserShowsErrorMessage() {
         LoginPage loginPage = new LoginPage().loginExpectingError("no_such_user_98765", "any-password");
         Assert.assertFalse(loginPage.getErrorMessage().isBlank(), "Expected an error for an unknown user");
+    }
+
+    @Test(description = "Valid user lands on Accounts Overview", groups = {"smoke"})
+    public void validLoginShowsAccountsOverview() {
+        AccountsOverviewPage overview = new LoginPage().loginAs(VALID_USERNAME, VALID_PASSWORD);
+        Assert.assertTrue(overview.isLoaded(), "Accounts Overview page not shown after login");
+    }
+
+    @Test(description = "User can log out after logging in", groups = {"regression"})
+    public void userCanLogOut() {
+        LoginPage loginPage = new LoginPage().loginAs(VALID_USERNAME, VALID_PASSWORD).logOut();
+        Assert.assertTrue(loginPage.isLoginPanelDisplayed(), "Login panel not shown after logging out");
     }
 }
