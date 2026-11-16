@@ -21,7 +21,8 @@ public class LoginTest extends BaseTest {
                 "User was logged in with a wrong password");
     }
 
-    @Test(description = "Unknown username does not log in", groups = {"regression"})
+    @Test(description = "Unknown username does not log in. KNOWN DEFECT: public ParaBank authenticates unknown users",
+            groups = {"regression", "known-issue"})
     public void unknownUserDoesNotLogIn() {
         new LoginPage().loginExpectingError("no_such_user_98765", "any-password");
         Assert.assertFalse(new AccountsOverviewPage().isLoadedWithin(Duration.ofSeconds(3)),
