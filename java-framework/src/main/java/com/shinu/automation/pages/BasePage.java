@@ -1,5 +1,6 @@
 package com.shinu.automation.pages;
 
+import com.shinu.automation.core.ConfigManager;
 import com.shinu.automation.core.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +12,8 @@ import java.time.Duration;
 
 public abstract class BasePage {
 
-    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
+    private static final Duration DEFAULT_TIMEOUT =
+            Duration.ofSeconds(ConfigManager.getInt("explicit.wait.seconds"));
 
     protected final WebDriver driver;
     protected final WebDriverWait wait;
